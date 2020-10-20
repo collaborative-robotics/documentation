@@ -1,4 +1,4 @@
 
-# Collaborative Robotics Toolkit ([CRTK](/collaborative-robotics/documentation/wiki))
+# Collaborative Robotics Toolkit ([CRTK](https://github.com/collaborative-robotics/documentation/wiki))
 
-Documentation is on the [wiki](/collaborative-robotics/documentation/wiki).
+Documentation is on the [wiki](https://github.com/collaborative-robotics/documentation/wiki).
