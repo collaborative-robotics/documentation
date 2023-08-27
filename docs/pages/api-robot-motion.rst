@@ -187,12 +187,8 @@ Diagram
   :alt: CRTK robot motion commands
 
 
-Detailed API
-============
-
-
-General requirements
---------------------
+Other notes
+-----------
 
 For temporarily unavailable data, set the time ``header.stamp``
 to 0. For commands not supported at all by the robot, make sure
@@ -210,11 +206,11 @@ should be implemented as publishers on the robot side.
 
 
 Query commands
---------------
+==============
 
 
 ``measured_js``, measured joint state
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -242,7 +238,7 @@ Query commands
 
 
 ``measured_cp``, measured cartesian position
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------
 
 * **Payload:** ``geometry_msgs/PoseStamped`` (before 01/2022 payload
   was ``geometry_msgs/TransformStamped``, see #1)
@@ -263,7 +259,7 @@ Query commands
 
 
 ``measured_cv``, measured cartesian velocity (twist)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------
 
 * **Payload:** ``geometry_msgs/TwistStamped``
 
@@ -288,7 +284,7 @@ Query commands
 
 
 ``measured_cf``, measured cartesian force (wrench)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------
 
 * **Payload:** ``geometry_msgs/WrenchStamped``
 
@@ -313,7 +309,7 @@ Query commands
 
 
 ``setpoint_js``, joint setpoint (low-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------
 
 * **Payload:** `sensor_msgs/JointState`
 
@@ -403,7 +399,7 @@ Query commands
 
 
 ``setpoint_cp``, cartesian position setpoint (low-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------------------
 
 * **Payload:** ``geometry_msgs/PoseStamped`` (before 01/2022 payload
   was ``geometry_msgs/TransformStamped``, see #1)
@@ -430,41 +426,41 @@ Query commands
 
 
 ``setpoint_cv``, cartesian velocity setpoint (low-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------------------
 
 TODO, similar notes to ``setpoint_cp``
 
 
 ``setpoint_cf``, cartesian force setpoint (low-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------------
 
 TODO, similar notes to ``setpoint_cp``
 
 
 ``goal_js``, joint goal (mid-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------
 
 TODO, should just report the end goal of ``{interpolate,move}_{c,j}{p,v,f}``
 
 
 ``goal_cp``, cartesian position goal (mid-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------
 
 TODO, should just report the goal in ``{interpolate,move}_{j,c}p``
 
 
 ``goal_cv``, cartesian position goal (mid-level controller)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------
 
 TODO, should just report the goal in ``interpolate_{j,c}v``
 
 
 Motion commands
----------------
+===============
 
 
 ``servo_jp``, set position joint setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -493,7 +489,7 @@ Motion commands
 
 
 ``servo_jr``, set position joint relative setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -515,7 +511,7 @@ Motion commands
 
 
 ``servo_jv``, set velocity joint setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -537,47 +533,47 @@ Motion commands
 
 
 ``servo_jf``, set effort joint setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------
 
 ``servo_cp``, set position cartesian setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------------
 
 ``servo_cr``, set position cartesian relative setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------------------
 
 ``servo_cv``, set velocity cartesian setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------------
 
 ``servo_cf``, set effort cartesian setpoint (low-level)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------
 
 ``interpolate_jp``, set position joint goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------------
 
 ``interpolate_jr``, set position joint relative goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------------------------------
 
 ``interpolate_jv``, set velocity joint goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------------
 
 ``interpolate_jf``, set effort joint goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------
 
 ``interpolate_cp``, set position cartesian goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------
 
 ``interpolate_cr``, set position cartesian relative goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------------------
 
 ``interpolate_cv``, set velocity cartesian goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------
 
 ``interpolate_cf``, set effort cartesian goal (with interpolation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------------------
 
 
 ``move_jp``, set position joint goal (with trajectory generation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -600,7 +596,7 @@ Motion commands
 
 
 ``move_jr``, set position joint relative goal (with trajectory generation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------------------------------
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -624,7 +620,7 @@ Motion commands
 
 
 ``move_cp``, set position cartesian goal (with trajectory generation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------------------------
 
 ``move_cr``, set position cartesian relative goal (with trajectory generation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------------------------------
