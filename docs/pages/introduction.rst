@@ -21,12 +21,14 @@ environment.
 Use cases
 =========
 
-The initial use cases were motivated by the Raven II and da Vinci
-Research Kit (dVRK), which are telerobotic systems primarily used for
-research in medical applications. However, it also encompasses
-teleoperation or cooperative (hands-on) control of other robot
-systems, including typical industrial robots. It is not intended for
-mobile robots. Typical use cases include:
+The initial use cases were motivated by the `Raven
+II<https://applieddexterity.com/>`_ and `da Vinci Research Kit
+(dVRK)<https://github.com/jhu-dvrk/sawIntuitiveResearchKit>`_, which
+are telerobotic systems primarily used for research in medical
+applications. However, it also encompasses teleoperation or
+cooperative (hands-on) control of other robot systems, including
+typical industrial robots. It is not intended for mobile
+robots. Typical use cases include:
 
 * Teleoperation with or without force feedback, using any master input
   device to teleoperate any slave robot

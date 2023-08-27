@@ -32,7 +32,7 @@ below.
 The following subsections describe the states.
 
 DISABLED
-++++++++
+--------
 
 In this state, the drive (motor) power is disabled. This is typically
 the initial state of the robot. If, however, there is a fault
@@ -40,7 +40,7 @@ condition that would prevent the robot from being powered on (via the
 enable command), the system should transition to the FAULT state.
 
 ENABLED
-+++++++
+-------
 
 In this state, the motor power is enabled and the robot is able to
 move. We identify the BUSY operating mode, which indicates that a
@@ -54,7 +54,7 @@ implementations may have several states in this category; for example,
 a separate state for each motion type.
 
 PAUSED
-++++++
+------
 
 In this state, the motor power is enabled, but the robot cannot be
 moved. The system transitions to this state in response to a pause
@@ -71,7 +71,7 @@ has control of the robot; for example, if pre-empted by another
 controller, such as a teach pendant.
 
 FAULT
-+++++
+-----
 
 The robot enters the FAULT state when a fault condition (safety
 violation) causes the motor power to be disabled. If the robot system
