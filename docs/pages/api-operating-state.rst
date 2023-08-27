@@ -1,5 +1,5 @@
 Overview
-++++++++
+========
 
 A robot controller often includes a state machine to manage different
 phases of robot operation. CRTK does not mandate the use of a state
@@ -10,7 +10,7 @@ current meta-state. In addition, we specify queries whether the robot
 is homed and/or busy.
 
 Robot Meta-States
-+++++++++++++++++
+=================
 
 The four robot *meta-states* (hereafter called states) are illustrated
 in the following notional state machine:
@@ -100,7 +100,7 @@ system), whereas the system cannot determine whether an
 application-level fault is persistent.
 
 State Transitions
-+++++++++++++++++
+=================
 
 The following table indicates the state transitions corresponding to
 the commands listed in the top row.
@@ -158,7 +158,7 @@ command to initiate the homing sequence and an ``unhome`` command to
 reset the home flag.
 
 State Queries
-+++++++++++++
+=============
 
 Each of the meta-states has a corresponding query command if the robot
 is in that state. The state queries are ``is_disabled``, ``is_enabled``,
