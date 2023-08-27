@@ -7,5 +7,3 @@
 
    pages/introduction
    pages/api
-   pages/api-operating-state
-   pages/api-robot-motion

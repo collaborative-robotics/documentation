@@ -21,9 +21,24 @@ CRTK commands are separated in three main groups:
     specify tool)
 
 * Robot Motion
-  
+
   * Query the measured or desired robot position, velocity, or effort
-    
+
   * Move the robot based on a desired position, velocity, or effort
 
 * Status, warning, error messages (not defined yet!)
+
+
+.. _API_operating_state:
+
+Operating state
+===============
+
+.. include:: api-operating-state.rst
+
+.. _API_robot_motion:
+
+Robot motion
+============
+
+.. include:: api-robot-motion.rst
