@@ -64,6 +64,23 @@ Simple interpolation:
   lower than the low-level controller. The velocity of the motion is
   defined by the user commands. These commands are preemptive.
 
+``move``
+^^^^^^^^
+
+Move with trajectory generation:
+
+* **Use case**: User wants to move to a given position and stop there (e.g., home position, pick and place)
+  
+* **Type**: These commands are position based, either absolute or relative.
+  
+* **Continuity**: Users must send feasible commands. The low-level
+  controller will compute a complete trajectory to move from the
+  current state (position and velocity) to the desired goal.
+  
+* **Time**: Users are expected to send a single command and wait for
+  completion before sending a new one. Time of execution is defined by
+  the trajectory generation parameters (acceleration and velocity).
+
 
 Naming convention
 -----------------

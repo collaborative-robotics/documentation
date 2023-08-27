@@ -32,17 +32,17 @@ cooperative (hands-on) control of other robot systems, including
 typical industrial robots. It is not intended for mobile
 robots. Typical use cases include:
 
-# Teleoperation with or without force feedback, using any master input
+* Teleoperation with or without force feedback, using any master input
   device to teleoperate any slave robot
 
-  # Teleoperation over high-speed links, for example when master and
+  * Teleoperation over high-speed links, for example when master and
     slave are controlled from same computer or from computers with
     high-speed local connection
 
-  # Teleoperation with lower-quality channels, such as over the
+  * Teleoperation with lower-quality channels, such as over the
     Internet. These may have lower bandwidth and/or significant
     latency.
 
-# Autonomous (CNC-style) motion on the slave robot
+* Autonomous (CNC-style) motion on the slave robot
 
-# Virtual fixtures on the master robot
+* Virtual fixtures on the master robot
