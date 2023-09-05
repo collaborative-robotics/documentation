@@ -69,13 +69,14 @@ Simple interpolation:
 
 Move with trajectory generation:
 
-* **Use case**: User wants to move to a given position and stop there (e.g., home position, pick and place)
+* **Use case**: User wants to move to a given position and stop there
+  (e.g., home position, pick and place)
 
 * **Type**: These commands are position based, either absolute or relative.
 
 * **Continuity**: Users must send feasible commands. The low-level
   controller will compute a complete trajectory to move from the
-  current state (position and velocity) to the desired goal.
+  current state (position and velocity) to the desired goal (position).
 
 * **Time**: Users are expected to send a single command and wait for
   completion before sending a new one. Time of execution is defined by
@@ -187,6 +188,111 @@ Diagram
   :alt: CRTK robot motion commands
 
 
+Namespaces
+----------
+
+Since the CRTK API is fairly simple and the payloads don't necessarily
+contain a string to specify which part of robot is used (for both
+query and motion commands), namespaces can be used to define which
+part of the robot is addressed.  For example, a robot manipulator will
+often be composed of a kinematic chain for cartesian control and a
+gripper at its tip.  The gripper can usually be driven only in joint
+space.  Let's assume a Universal Robot (6 DOFs) with a gripper.  On
+ROS, this robot can be represented using the following topics:
+
+* ``/UR/`` namespace for the serial links with joints and cartesian commands
+
+  * ``/UR/measured_js``, joint state for the first 6 joints
+
+  * ``/UR/measured_cp``
+
+  * ``/UR/setpoint_js``
+
+  * ``/UR/setpoint_cp``
+
+  * ``/UR/servo_jp``
+
+  * ...
+
+* ``/UR/gripper`` namespace for the gripper, only joint commands.
+
+  * ``/UR/gripper/measured_js``, joint state for the single joint controlling the gripper
+
+  * ``/UR/gripper/setpoint_js``
+
+  * ``/UR/gripper/servo_js``, servo command to control the gripper's opening using one joint
+
+Namespaces can also be used to organize different topics:
+
+* Providing the forward kinematic with respect to a different
+  reference frame.  For the dVRK, ``/PSM1/measured_cp`` is defined
+  with respect to the camera coordinate system.  If a user needs
+  access to the cartesian position with respect to the local
+  coordinate system of the PSM, i.e. it's RCM (remote center of
+  motion), they can use the topic ``/PSM1/local/measured_cp``.
+
+* Providing information for redundant sensors.  The da Vinci arms used
+  with the dVRK have redundant sensors on all joints.  To access the
+  state of the default sensors (encoders), the ROS topic is
+  ``/PSM1/measured_js``.  To access the potentiometers state, the
+  topic is ``/PSM1/actuators/measured_js``.
+
+* A namespace can also be used to define a new behavior.  By default
+  ``servo_cf`` would be used to control the amount of force applied by
+  the robot on its environment (for example with an haptic device).
+  For a device with a handle mounted on a force sensor, the compliant
+  control can be exposed using something like
+  ``/galen/compliance/servo_cf``.  Sending a zero wrench would
+  activate the force compliant mode where the robot is trying to
+  maintain a zero force on the handle by following the forces applied
+  by the user.
+
+
+Namespaces can also be used besides ROS.  For example in Python or C++, one can create a struct or class to group some methods:
+
+.. code-block:: python
+
+   my_ur = ur('/UR')
+   js_robot = my_ur.measured_js()
+   js_gripper = my_ur.gripper.measured_js()
+
+
+Pending issues, limitations
+---------------------------
+
+The following issues appeared as we implemented different robots using
+CRTK, mostly on the dVRK.
+
+* In the current implementation, ``servo_jp`` uses a ROS message type
+  ``JointState`` that contains 3 vectors, position, velocity and
+  effort.  The position is required but velocity and effort and
+  ignored.  If the user can provide a velocity, this could potentially
+  be used by the low-level controller (e.g. PID) to provide a better
+  trajectory following.  The effort vector could be used as a bias
+  force for the PID controller for such things as gravity compensation
+  or haptic feedback.  To note, it would be hard to port this behavior
+  ``servo_cp`` since the ROS payload currently used doesn't provide a
+  placehold for the velocity nor effort.
+
+* In the current specification and implementation, ``move`` commands
+  use existing ROS message types.  As such there is no way to specify
+  the desired velocity at the goal point.  Current implementation
+  assumes the goal velocity is zero.
+
+* Many commands, both query and motion ones, assume a reference frame.
+  For example, a ``servo_cf`` command can be defined with respect to
+  the base frame (aka space) or end effector (aka body).  Instead of
+  using the ROS ``frame_id`` to define the reference frame, we used
+  namespaces to define the reference frame, i.e. we define both
+  ``spatial/servo_cf`` and ``body/servo_cf``.  The same can be applied
+  for measured twist and wrench (``measured_cv`` and ``measured_cf``).
+
+* For relative cartesian command, the specfications don't specify if
+  the relative transformation is defined with respect to the end
+  effector or the base frame of the robot.  These commands have not
+  been implemented on the dVRK.
+
+
 Other notes
 -----------
 
@@ -205,12 +311,17 @@ When using ROS, all query commands related to the robot telemetry
 should be implemented as publishers on the robot side.
 
 
+
 Query commands
 ==============
 
 
-``measured_js``, measured joint state
--------------------------------------
+.. _measured_js:
+
+``measured_js``
+---------------
+
+Measured joint state.
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -237,11 +348,15 @@ Query commands
     sensors or current feedback per joints
 
 
-``measured_cp``, measured cartesian position
---------------------------------------------
+.. _measured_cp:
+
+``measured_cp``
+---------------
+
+Measured cartesian position.
 
 * **Payload:** ``geometry_msgs/PoseStamped`` (before 01/2022 payload
-  was ``geometry_msgs/TransformStamped``, see #1)
+  was ``geometry_msgs/TransformStamped``, see `issue #1 <https://github.com/collaborative-robotics/documentation/issues/1>`_)
 
 * **Specification:**
 
@@ -255,11 +370,15 @@ Query commands
 
   * ``Transform transform``: translation and rotation for the measured
     cartesian position (e.g. forward kinematics based on measured
-    joint position from ``measured_js``) [*required*]
+    joint position from :ref:`measured_js`) [*required*]
 
 
-``measured_cv``, measured cartesian velocity (twist)
-----------------------------------------------------
+.. _measured_cv:
+
+``measured_cv``
+---------------
+
+Measured cartesian velocity (twist).
 
 * **Payload:** ``geometry_msgs/TwistStamped``
 
@@ -269,9 +388,9 @@ Query commands
     is based on a measured joint velocity, the time stamp should be
     the same as ``measured_js`` [*required*]
 
-  * ``string header.frame_id``: reference frame, see measured_cp [*required*]
+  * ``string header.frame_id``: reference frame, see :ref:`measured_cp` [*required*]
 
-  * ``string frame_id``: moving frame, see measured_cp [*not available on ROS*]
+  * ``string frame_id``: moving frame, see :ref:`measured_cp` [*not available on ROS*]
 
   * ``Twist twist``: linear and angular components for the measured
     cartesian velocity (e.g. Jacobian applied to measured joint
@@ -283,8 +402,12 @@ Query commands
     doesn't have a way to estimate joint velocity.
 
 
-``measured_cf``, measured cartesian force (wrench)
---------------------------------------------------
+.. _measured_cf:
+
+``measured_cf``
+---------------
+
+Measured cartesian force (wrench).
 
 * **Payload:** ``geometry_msgs/WrenchStamped``
 
@@ -294,9 +417,9 @@ Query commands
     is based on a measured joint efforts, the time stamp should be the
     same as measured_js [*required*]
 
-  * ``string header.frame_id``: reference frame, see measured_cp [*required*]
+  * ``string header.frame_id``: reference frame, see :ref:`measured_cp` [*required*]
 
-  * ``string frame_id``: moving frame, see `measured_cp` [*not available on ROS*]
+  * ``string frame_id``: moving frame, see :ref:`measured_cp` [*not available on ROS*]
 
   * ``Wrench wrench``: force and torque components for the measured
     cartesian wrench (e.g. Jacobian applied to measured joint efforts)
@@ -308,8 +431,12 @@ Query commands
     doesn't have a way to estimate joint efforts.
 
 
-``setpoint_js``, joint setpoint (low-level controller)
-------------------------------------------------------
+.. _setpoint_js:
+
+``setpoint_js``
+---------------
+
+Joint setpoint (low-level controller).
 
 * **Payload:** `sensor_msgs/JointState`
 
@@ -319,7 +446,7 @@ Query commands
     can be defined by a direct servo command or an intermediary set
     point calculated by interpolate or move.
 
-  * ``string header.frame_id``: reference frame, see `measured_js` [*required*]
+  * ``string header.frame_id``: reference frame, see :ref:`measured_js` [*required*]
 
   * ``string name[]``: array of joint names [*required*]
 
@@ -398,11 +525,15 @@ Query commands
  	 - ``F_llc`` or n/a
 
 
-``setpoint_cp``, cartesian position setpoint (low-level controller)
--------------------------------------------------------------------
+.. _setpoint_cp:
+
+``setpoint_cp``
+---------------
+
+Cartesian position setpoint (low-level controller).
 
 * **Payload:** ``geometry_msgs/PoseStamped`` (before 01/2022 payload
-  was ``geometry_msgs/TransformStamped``, see #1)
+  was ``geometry_msgs/TransformStamped``, see  `issue #1 <https://github.com/collaborative-robotics/documentation/issues/1>`_)
 
 * **Specification:**
 
@@ -425,42 +556,68 @@ Query commands
     zeroing the ``time header.stamp``.
 
 
-``setpoint_cv``, cartesian velocity setpoint (low-level controller)
--------------------------------------------------------------------
+.. _setpoint_cv:
 
-TODO, similar notes to ``setpoint_cp``
+``setpoint_cv``
+---------------
 
+Cartesian velocity setpoint (low-level controller).
 
-``setpoint_cf``, cartesian force setpoint (low-level controller)
-----------------------------------------------------------------
-
-TODO, similar notes to ``setpoint_cp``
+See :ref:`setpoint_cp` and :ref:`setpoint_js`.
 
 
-``goal_js``, joint goal (mid-level controller)
-----------------------------------------------
+.. _setpoint_cf:
 
-TODO, should just report the end goal of ``{interpolate,move}_{c,j}{p,v,f}``
+``setpoint_cf``
+---------------
 
+Cartesian force setpoint (low-level controller).
 
-``goal_cp``, cartesian position goal (mid-level controller)
------------------------------------------------------------
-
-TODO, should just report the goal in ``{interpolate,move}_{j,c}p``
+See :ref:`setpoint_cp` and :ref:`setpoint_js`.
 
 
-``goal_cv``, cartesian position goal (mid-level controller)
------------------------------------------------------------
+.. _goal_js:
 
-TODO, should just report the goal in ``interpolate_{j,c}v``
+``goal_js``
+-----------
+
+Joint goal (mid-level controller).
+
+This command is not fully specified yet. It should at least report
+the end goal from ``{interpolate,move}_{c,j}{p,v,f}``.
+
+
+.. _goal_cp:
+
+``goal_cp``
+-----------
+
+Cartesian position goal (mid-level controller).
+
+See :ref:`goal_js`
+
+
+.. _goal_cv:
+
+``goal_cv``
+-----------
+
+Cartesian velocity goal (mid-level controller).
+
+This command is not fullt specified yer. It should at least report
+the goal from ``interpolate_{j,c}v``
 
 
 Motion commands
 ===============
 
 
-``servo_jp``, set position joint setpoint (low-level)
------------------------------------------------------
+.. _servo_jp:
+
+``servo_jp``
+------------
+
+Set position joint setpoint (low-level).
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -488,9 +645,12 @@ Motion commands
     for data collection or further validation.
 
 
-``servo_jr``, set position joint relative setpoint (low-level)
---------------------------------------------------------------
+.. _servo_jr:
 
+``servo_jr``
+------------
+
+Set position joint relative setpoint (low-level).
 * **Payload:** ``sensor_msgs/JointState``
 
 * **Specification:**
@@ -507,11 +667,15 @@ Motion commands
 
   * ``float64 effort[]``: [*not used*]
 
-* **Notes:** See `servo_jp`.
+* **Notes:** See :ref:`servo_jp`.
 
 
-``servo_jv``, set velocity joint setpoint (low-level)
------------------------------------------------------
+.. _servo_jv:
+
+``servo_jv``
+------------
+
+Set velocity joint setpoint (low-level).
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -529,51 +693,120 @@ Motion commands
 
   * ``float64 effort[]``: [*not used*]
 
-* **Notes:** See `servo_jp`.
+* **Notes:** See :ref:`servo_jp`.
 
 
-``servo_jf``, set effort joint setpoint (low-level)
----------------------------------------------------
+.. _servo_jf:
 
-``servo_cp``, set position cartesian setpoint (low-level)
----------------------------------------------------------
+``servo_jf``
+------------
 
-``servo_cr``, set position cartesian relative setpoint (low-level)
-------------------------------------------------------------------
-
-``servo_cv``, set velocity cartesian setpoint (low-level)
----------------------------------------------------------
-
-``servo_cf``, set effort cartesian setpoint (low-level)
--------------------------------------------------------
-
-``interpolate_jp``, set position joint goal (with interpolation)
-----------------------------------------------------------------
-
-``interpolate_jr``, set position joint relative goal (with interpolation)
--------------------------------------------------------------------------
-
-``interpolate_jv``, set velocity joint goal (with interpolation)
-----------------------------------------------------------------
-
-``interpolate_jf``, set effort joint goal (with interpolation)
---------------------------------------------------------------
-
-``interpolate_cp``, set position cartesian goal (with interpolation)
---------------------------------------------------------------------
-
-``interpolate_cr``, set position cartesian relative goal (with interpolation)
------------------------------------------------------------------------------
-
-``interpolate_cv``, set velocity cartesian goal (with interpolation)
---------------------------------------------------------------------
-
-``interpolate_cf``, set effort cartesian goal (with interpolation)
-------------------------------------------------------------------
+Set effort joint setpoint (low-level).
 
 
-``move_jp``, set position joint goal (with trajectory generation)
------------------------------------------------------------------
+.. _servo_cp:
+
+``servo_cp``
+------------
+
+Set position cartesian setpoint (low-level)
+
+
+.. _servo_cr:
+
+``servo_cr``
+------------
+
+Set position cartesian relative setpoint (low-level)
+
+
+.. _servo_cv:
+
+``servo_cv``
+------------
+
+Set velocity cartesian setpoint (low-level)
+
+
+.. _servo_cf:
+
+``servo_cf``
+------------
+
+Set effort cartesian setpoint (low-level)
+
+
+.. _interpolate_jp:
+
+``interpolate_jp``
+------------------
+
+Set position joint goal (with interpolation). See :ref:`servo_jp`.
+
+
+.. _interpolate_jr:
+
+``interpolate_jr``
+------------------
+
+Set position joint relative goal (with interpolation). See :ref:`servo_jr`.
+
+
+.. _interpolate_js:
+
+``interpolate_jv``
+------------------
+
+Set velocity joint goal (with interpolation). See :ref:`servo_jv`.
+
+
+.. _interpolate_jf:
+
+``interpolate_jf``
+------------------
+
+Set effort joint goal (with interpolation). See :ref:`servo_jf`.
+
+
+.. _interpolate_cp:
+
+``interpolate_cp``
+------------------
+
+Set position cartesian goal (with interpolation). See :ref:`servo_cp`.
+
+
+.. _interpolate_cr:
+
+``interpolate_cr``
+------------------
+
+Set position cartesian relative goal (with interpolation). See  :ref:`servo_cr`
+
+
+.. _interpolate_cv:
+
+
+``interpolate_cv``
+------------------
+
+Set velocity cartesian goal (with interpolation). See :ref:`servo_cv`.
+
+
+.. _interpolate_cf:
+
+``interpolate_cf``
+------------------
+
+Set effort cartesian goal (with interpolation).  See :ref:`servo_cf`.
+
+
+.. _move_jp:
+
+``move_jp``
+-----------
+
+Set position joint goal (with trajectory generation).
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -595,8 +828,12 @@ Motion commands
   * ``float64 effort[]``: [*not used*]
 
 
-``move_jr``, set position joint relative goal (with trajectory generation)
---------------------------------------------------------------------------
+.. _move_jr:
+
+``move_jr``
+-----------
+
+Set position joint relative goal (with trajectory generation).
 
 * **Payload:** ``sensor_msgs/JointState``
 
@@ -619,8 +856,17 @@ Motion commands
   * ``float64 effort[]``: [*not used*]
 
 
-``move_cp``, set position cartesian goal (with trajectory generation)
----------------------------------------------------------------------
+.. _move_cp:
 
-``move_cr``, set position cartesian relative goal (with trajectory generation)
-------------------------------------------------------------------------------
+``move_cp``
+-----------
+
+Set position cartesian goal (with trajectory generation). See :ref:`servo_cp`.
+
+
+.. _move_cr:
+
+``move_cr``
+-----------
+
+Set position cartesian relative goal (with trajectory generation). See :ref:`servo_cr`.
