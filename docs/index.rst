@@ -9,3 +9,4 @@ CRTK
 
    pages/introduction
    pages/api
+   pages/clients  
