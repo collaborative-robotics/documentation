@@ -16,13 +16,13 @@ Direct access to the low-level controller:
 
 * **Use cases:**
 
-  * User has a smooth and continuous trajectory coming from a master
+  * User has a smooth and continuous trajectory coming from a leader
     arm or recorded trajectory and can send commands at a high rate.
 
   * Closing the loop in velocity mode using a fast external sensor
     with a task based Jacobian.
 
-  * Haptic feedback on master arm.
+  * Haptic feedback on leader arm.
 
 * **Type:** These commands can be either position, velocity or effort
   based. Positions can be provided relative from the latest setpoint
@@ -45,7 +45,7 @@ Simple interpolation:
 
 * **Use cases:**
 
-  * User has a smooth trajectory coming from a master arm or recorded
+  * User has a smooth trajectory coming from a leader arm or recorded
     trajectory, but **cannot** send commands at a high rate (e.g., 50Hz
     visual tracking, remote tele-operation).
 
