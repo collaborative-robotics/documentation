@@ -4,10 +4,6 @@
 API
 ###
 
-********
-Overview
-********
-
 All payloads will have a standard header that includes at least a
 timestamp. The timestamp is an absolute time, following the Unix
 convention of time since January 1, 1970.
@@ -32,16 +28,16 @@ CRTK commands are separated in three main groups:
 
 .. _API_operating_state:
 
-***************
-Operating state
-***************
+####################
+API: Operating state
+####################
 
 .. include:: api-operating-state.rst
 
 .. _API_robot_motion:
 
-************
-Robot motion
-************
+#################
+API: Robot motion
+#################
 
 .. include:: api-robot-motion.rst

@@ -1,39 +1,9 @@
-General concepts
-================
-
-The main class in the CRTK Python client library is ``crtk.utils``. It
-can be used to quickly populate an existing class by adding CRTK like
-methods. These methods will handle the following for you:
-
-* Declare all required ROS publishers and wrap publisher calls in
-  methods to send data to the device
-
-* Declare all required ROS subscribers and provide callbacks to
-  receive the data from the device
-
-* Convert ROS messages to more convenient Python data types,
-  i.e. numpy arrays for joint values and PyKDL types for cartesian
-  data.
-
-* Some events to manage asynchronous communication between the device
-  and the "proxy" class.
-
-The class ``crtk.utils`` is designed to add CRTK features "a la
-carte", i.e. it doesn't assume that all CRTK features are
-available. This allows to:
-
-* Match only the features that are available on the CRTK devices one wants to use (server side)
-
-* Reduce the number of features to those strictly needed for the
-  application (client side). Reducing the number of ROS topics used
-  helps in terms of performance.
-
-
-Installing the package
-======================
+************
+Installation
+************
 
 ROS 1
------
+=====
 
 To build the ROS 1 CRTK Client library, we recommend to use the catkin
 build tools, i.e. ``catkin build``. You will need to clone this repository
@@ -42,8 +12,8 @@ as well as the repository with CRTK specific ROS messages:
 .. code-block:: bash
 
    cd ~/catkin_ws/src   # or wherever your catkin workspace is
-   git clone https://github.com/collaborative-robotics/crtk_msgs
-   git clone https://github.com/collaborative-robotics/crtk_python_client
+   git clone https://github.com/collaborative-robotics/crtk_msgs crtk/crtk_msgs
+   git clone https://github.com/collaborative-robotics/crtk_python_client crtk/crtk_python_client
    catkin build
 
 Once these packages are built, you should source your ``setup.bash``:
@@ -51,14 +21,29 @@ Once these packages are built, you should source your ``setup.bash``:
 to import the crtk python package in Python using import crtk.
 
 ROS 2
------
+=====
 
+You will first need to clone this repository as well as the repository
+with CRTK specific ROS messages:
 
+.. code-block:: bash
+
+   cd ~/ros2_ws/src   # or wherever your ROS 2 workspace is
+   git clone https://github.com/collaborative-robotics/crtk_msgs crtk/crtk_msgs
+   git clone https://github.com/collaborative-robotics/crtk_python_client crtk/crtk_python_client
+   cd ~/ros2_ws;
+   colcon build
+
+Once these packages are built, you should source your ``setup.bash``:
+``source ~/ros_ws/install/setup.bash``. At that point, you should be able
+to import the crtk python package in Python using import crtk.
+
+*******************
 Setting up a client
-===================
+*******************
 
 Overview
---------
+========
 
 You can find some examples in the scripts directory. Overall, the
 approach is always the same, i.e. create a class and populate it with
@@ -120,7 +105,7 @@ Once the class is defined, the user can use it:
 
 
 Operating state
----------------
+===============
 
 ``crtk.utils.add_operating_state`` adds:
 
@@ -138,7 +123,7 @@ Operating state
 
 
 Robot motion
-------------
+============
 
 ``crtk.utils`` supports the following CRTK features:
 
@@ -188,8 +173,9 @@ device operating state and can be added to the example class using
 ``crtk.utils.add_operating_state``. See previous section.
 
 
+**************
 Using a client
-==============
+**************
 
 For the dVRK, one can use the classes ``dvrk.arm``, ``dvrk.psm``,
 ``dvrk.mtm``... that use the ``crtk.utils`` to provide as many
@@ -234,4 +220,3 @@ Example of use:
     # rotate tool tip frame by 25 degrees
     goal.M.DoRotX(math.pi * 0.25)
     p.move_cp(goal).wait()
-

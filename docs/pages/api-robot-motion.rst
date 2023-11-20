@@ -1,15 +1,16 @@
+****************
 General concepts
-================
+****************
 
 Motions
--------
+=======
 
 We identified the following basic types of motions for collaborative
 robotics. All these commands can be defined either in the cartesian or
 joint space.
 
 ``servo``
-^^^^^^^^^
+---------
 
 Direct access to the low-level controller:
 
@@ -38,7 +39,7 @@ Direct access to the low-level controller:
   close to the low-level rate. These commands are preemptive.
 
 ``interpolate``
-^^^^^^^^^^^^^^^
+---------------
 
 Simple interpolation:
 
@@ -65,7 +66,7 @@ Simple interpolation:
   defined by the user commands. These commands are preemptive.
 
 ``move``
-^^^^^^^^
+--------
 
 Move with trajectory generation:
 
@@ -84,7 +85,7 @@ Move with trajectory generation:
 
 
 Naming convention
------------------
+=================
 
 Command names are based on the space, type and control level. The
 prefix identifies the control level (``servo``, ``interpolate`` or
@@ -93,7 +94,7 @@ identifying the space and type. For example, ``servo_cp`` is a "servo"
 command with a cartesian (``c``) position (``p``) setpoint.
 
 Query commands
-^^^^^^^^^^^^^^
+--------------
 
 * Space: ``j`` (joint), ``c`` (cartesian)
 
@@ -112,7 +113,7 @@ Query commands
   * Mid-level: ``goal`` (current interpolate or move goal)
 
 Motion commands
-^^^^^^^^^^^^^^^
+---------------
 
 * Space: ``j`` (joint), ``c`` (cartesian)
 
@@ -123,7 +124,7 @@ Motion commands
   interpolation), ``move`` (full trajectory planning)
 
 Data validity
-^^^^^^^^^^^^^
+-------------
 
 For all query commands, it might be necessary to indicate that the
 data is not valid. For all invalid data, the header timestamp should
@@ -138,10 +139,10 @@ detect invalid data, the ROS topic should be latched. See `ROS
 publisher options <http://wiki.ros.org/roscpp/Overview/Publishers%20and%20Subscribers#Publisher_Options>`_.
 
 Overview
---------
+========
 
 Table
-^^^^^
+-----
 
 .. list-table::
    :widths: 20 80
@@ -180,7 +181,7 @@ Table
 
 
 Diagram
-^^^^^^^
+-------
 
 .. image:: ../images/CommonAPI.png
   :width: 400
@@ -189,7 +190,7 @@ Diagram
 
 
 Namespaces
-----------
+==========
 
 Since the CRTK API is fairly simple and the payloads don't necessarily
 contain a string to specify which part of robot is used (for both
@@ -258,7 +259,7 @@ Namespaces can also be used besides ROS.  For example in Python or C++, one can 
 
 
 Pending issues, limitations
----------------------------
+===========================
 
 The following issues appeared as we implemented different robots using
 CRTK, mostly on the dVRK.
@@ -294,7 +295,7 @@ CRTK, mostly on the dVRK.
 
 
 Other notes
------------
+===========
 
 For temporarily unavailable data, set the time ``header.stamp``
 to 0. For commands not supported at all by the robot, make sure
@@ -311,15 +312,15 @@ When using ROS, all query commands related to the robot telemetry
 should be implemented as publishers on the robot side.
 
 
-
+**************
 Query commands
-==============
+**************
 
 
 .. _measured_js:
 
 ``measured_js``
----------------
+===============
 
 Measured joint state.
 
@@ -351,7 +352,7 @@ Measured joint state.
 .. _measured_cp:
 
 ``measured_cp``
----------------
+===============
 
 Measured cartesian position.
 
@@ -376,7 +377,7 @@ Measured cartesian position.
 .. _measured_cv:
 
 ``measured_cv``
----------------
+===============
 
 Measured cartesian velocity (twist).
 
@@ -405,7 +406,7 @@ Measured cartesian velocity (twist).
 .. _measured_cf:
 
 ``measured_cf``
----------------
+===============
 
 Measured cartesian force (wrench).
 
@@ -434,7 +435,7 @@ Measured cartesian force (wrench).
 .. _setpoint_js:
 
 ``setpoint_js``
----------------
+===============
 
 Joint setpoint (low-level controller).
 
@@ -528,7 +529,7 @@ Joint setpoint (low-level controller).
 .. _setpoint_cp:
 
 ``setpoint_cp``
----------------
+===============
 
 Cartesian position setpoint (low-level controller).
 
@@ -559,7 +560,7 @@ Cartesian position setpoint (low-level controller).
 .. _setpoint_cv:
 
 ``setpoint_cv``
----------------
+===============
 
 Cartesian velocity setpoint (low-level controller).
 
@@ -579,7 +580,7 @@ See :ref:`setpoint_cp` and :ref:`setpoint_js`.
 .. _goal_js:
 
 ``goal_js``
------------
+===========
 
 Joint goal (mid-level controller).
 
@@ -590,7 +591,7 @@ the end goal from ``{interpolate,move}_{c,j}{p,v,f}``.
 .. _goal_cp:
 
 ``goal_cp``
------------
+===========
 
 Cartesian position goal (mid-level controller).
 
@@ -600,7 +601,7 @@ See :ref:`goal_js`
 .. _goal_cv:
 
 ``goal_cv``
------------
+===========
 
 Cartesian velocity goal (mid-level controller).
 
@@ -608,14 +609,15 @@ This command is not fullt specified yer. It should at least report
 the goal from ``interpolate_{j,c}v``
 
 
+***************
 Motion commands
-===============
+***************
 
 
 .. _servo_jp:
 
 ``servo_jp``
-------------
+============
 
 Set position joint setpoint (low-level).
 
@@ -648,7 +650,7 @@ Set position joint setpoint (low-level).
 .. _servo_jr:
 
 ``servo_jr``
-------------
+============
 
 Set position joint relative setpoint (low-level).
 * **Payload:** ``sensor_msgs/JointState``
@@ -673,7 +675,7 @@ Set position joint relative setpoint (low-level).
 .. _servo_jv:
 
 ``servo_jv``
-------------
+============
 
 Set velocity joint setpoint (low-level).
 
@@ -699,7 +701,7 @@ Set velocity joint setpoint (low-level).
 .. _servo_jf:
 
 ``servo_jf``
-------------
+============
 
 Set effort joint setpoint (low-level).
 
@@ -707,7 +709,7 @@ Set effort joint setpoint (low-level).
 .. _servo_cp:
 
 ``servo_cp``
-------------
+============
 
 Set position cartesian setpoint (low-level)
 
@@ -715,7 +717,7 @@ Set position cartesian setpoint (low-level)
 .. _servo_cr:
 
 ``servo_cr``
-------------
+============
 
 Set position cartesian relative setpoint (low-level)
 
@@ -723,7 +725,7 @@ Set position cartesian relative setpoint (low-level)
 .. _servo_cv:
 
 ``servo_cv``
-------------
+============
 
 Set velocity cartesian setpoint (low-level)
 
@@ -731,7 +733,7 @@ Set velocity cartesian setpoint (low-level)
 .. _servo_cf:
 
 ``servo_cf``
-------------
+============
 
 Set effort cartesian setpoint (low-level)
 
@@ -739,7 +741,7 @@ Set effort cartesian setpoint (low-level)
 .. _interpolate_jp:
 
 ``interpolate_jp``
-------------------
+==================
 
 Set position joint goal (with interpolation). See :ref:`servo_jp`.
 
@@ -747,7 +749,7 @@ Set position joint goal (with interpolation). See :ref:`servo_jp`.
 .. _interpolate_jr:
 
 ``interpolate_jr``
-------------------
+==================
 
 Set position joint relative goal (with interpolation). See :ref:`servo_jr`.
 
@@ -755,7 +757,7 @@ Set position joint relative goal (with interpolation). See :ref:`servo_jr`.
 .. _interpolate_js:
 
 ``interpolate_jv``
-------------------
+==================
 
 Set velocity joint goal (with interpolation). See :ref:`servo_jv`.
 
@@ -763,7 +765,7 @@ Set velocity joint goal (with interpolation). See :ref:`servo_jv`.
 .. _interpolate_jf:
 
 ``interpolate_jf``
-------------------
+==================
 
 Set effort joint goal (with interpolation). See :ref:`servo_jf`.
 
@@ -771,7 +773,7 @@ Set effort joint goal (with interpolation). See :ref:`servo_jf`.
 .. _interpolate_cp:
 
 ``interpolate_cp``
-------------------
+==================
 
 Set position cartesian goal (with interpolation). See :ref:`servo_cp`.
 
@@ -779,7 +781,7 @@ Set position cartesian goal (with interpolation). See :ref:`servo_cp`.
 .. _interpolate_cr:
 
 ``interpolate_cr``
-------------------
+==================
 
 Set position cartesian relative goal (with interpolation). See  :ref:`servo_cr`
 
@@ -788,7 +790,7 @@ Set position cartesian relative goal (with interpolation). See  :ref:`servo_cr`
 
 
 ``interpolate_cv``
-------------------
+==================
 
 Set velocity cartesian goal (with interpolation). See :ref:`servo_cv`.
 
@@ -796,7 +798,7 @@ Set velocity cartesian goal (with interpolation). See :ref:`servo_cv`.
 .. _interpolate_cf:
 
 ``interpolate_cf``
-------------------
+==================
 
 Set effort cartesian goal (with interpolation).  See :ref:`servo_cf`.
 
@@ -804,7 +806,7 @@ Set effort cartesian goal (with interpolation).  See :ref:`servo_cf`.
 .. _move_jp:
 
 ``move_jp``
------------
+===========
 
 Set position joint goal (with trajectory generation).
 
@@ -831,7 +833,7 @@ Set position joint goal (with trajectory generation).
 .. _move_jr:
 
 ``move_jr``
------------
+===========
 
 Set position joint relative goal (with trajectory generation).
 
@@ -859,7 +861,7 @@ Set position joint relative goal (with trajectory generation).
 .. _move_cp:
 
 ``move_cp``
------------
+===========
 
 Set position cartesian goal (with trajectory generation). See :ref:`servo_cp`.
 
@@ -867,6 +869,6 @@ Set position cartesian goal (with trajectory generation). See :ref:`servo_cp`.
 .. _move_cr:
 
 ``move_cr``
------------
+===========
 
 Set position cartesian relative goal (with trajectory generation). See :ref:`servo_cr`.
