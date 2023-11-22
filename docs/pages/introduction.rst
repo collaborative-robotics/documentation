@@ -58,7 +58,7 @@ This is a non-exhaustive list of devices with CRTK interfaces.  The devices with
 
   * ROS1 interface
 
-* `dVRK (daVinci Research Kit) <https://github.com/jhu-dvrk/sawIntuitiveResearchKit>`_
+* `dVRK (da Vinci Research Kit) <https://github.com/jhu-dvrk/sawIntuitiveResearchKit>`_
 
   * `ROS1 <https://github.com/jhu-dvrk/dvrk-ros>`_ and `ROS2 <https://github.com/jhu-dvrk/ros2_dvrk_robot>`_ interfaces as well as Python and Matlab clients
 
@@ -82,13 +82,13 @@ This is a non-exhaustive list of devices with CRTK interfaces.  The devices with
 
   * *cisstMultiTask* interface
 
-* `Northern Digital Inc tracking devices (NDi) <https://github.com/jhu-saw/sawNDITracker>`_.  Current implementation supports devices using a serial port or USB interface (Polaris, Aurora...)
+* `Northern Digital Inc tracking devices (NDI) <https://github.com/jhu-saw/sawNDITracker>`_.  Current implementation supports devices using a serial port or USB interface (Polaris, Aurora...)
 
   * `ROS1 <https://github.com/jhu-saw/sawNDITracker>`_ and `ROS2 <https://github.com/jhu-saw/sawNDITrackerROS2>`_ interfaces
 
   * *cisstMultiTask* interface
 
-* `Atracsys tracking devices (NDi) <https://github.com/jhu-saw/sawAtracsysFusionTrack>`_
+* `Atracsys tracking devices <https://github.com/jhu-saw/sawAtracsysFusionTrack>`_
 
   * `ROS1 <https://github.com/jhu-saw/sawAtracsysFusionTrack>`_ 
 
