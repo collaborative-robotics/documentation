@@ -36,7 +36,7 @@ robots. Typical use cases include:
   device (leader) to teleoperate any follower robot
 
   * Teleoperation over high-speed links, for example when leader and
-    follwer are controlled from same computer or from computers with
+    follower are controlled from same computer or from computers with
     high-speed local connection
 
   * Teleoperation with lower-quality channels, such as over the
