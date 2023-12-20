@@ -51,8 +51,9 @@ ROS 2
    colcon build
 
 
+*************************
 Custom message generation
-=========================
+*************************
 
 At that point, you can finally generate the code **in Matlab**:
 
@@ -90,8 +91,7 @@ executed everytime your start Matlab:
    on the ROS and Matlab versions, make sure you use the path provided
    by Matlab at the end of the ``rosgenmsg`` call.
 
-ROS 1
------
+ROS 1:
 
 .. code-block:: matlab
 
@@ -103,8 +103,7 @@ ROS 1
    % to locate dvrk code - only for dVRK users
    addpath('~/catkin_ws/src/dvrk-ros/dvrk_matlab')
 
-ROS 2
------
+ROS 2:
 
 .. code-block:: matlab
 
