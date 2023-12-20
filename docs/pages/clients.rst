@@ -24,7 +24,8 @@ methods. These methods will handle the following for you:
   cartesian data.  The Matlab client uses vectors and matrices.
 
 * Some events to manage asynchronous communication between the device
-  and the "proxy" class.
+  and the "proxy" class (e.g. end of ``move`` command, change of
+  state...)
 
 The class ``crtk.utils`` is designed to add CRTK features "a la
 carte", i.e. it doesn't assume that all CRTK features are
@@ -36,6 +37,19 @@ available. This allows to:
 * Reduce the number of features to those strictly needed for the
   application (client side). Reducing the number of ROS topics used
   helps in terms of performance.
+
+In version 1.2, ``crtk`` also includes a ROS Abstraction Layer.  The
+``ral`` goal is to hide which version of ROS is used so the end-user
+script can run with either ROS 1 or ROS 2.  The ``ral`` doesn't cover
+all the ROS features (either in Python or Matlab) so not all scripts
+can be totally portable.
+
+.. note::
+
+   As of December 2023, the Python client libraries have been used
+   extensively and are well tested.  The Matlab version is not as
+   mature.  More specifically the RAL implementation is buggy on ROS 2
+   and missing in the ROS 1 implementation.
 
 .. _client_python:
 

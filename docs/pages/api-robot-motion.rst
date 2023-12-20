@@ -288,7 +288,7 @@ CRTK, mostly on the dVRK.
   ``spatial/servo_cf`` and ``body/servo_cf``.  The same can be applied
   for measured twist and wrench (``measured_cv`` and ``measured_cf``).
 
-* For relative cartesian command, the specfications don't specify if
+* For relative cartesian command, the specifications don't specify if
   the relative transformation is defined with respect to the end
   effector or the base frame of the robot.  These commands have not
   been implemented on the dVRK.

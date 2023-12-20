@@ -16,40 +16,100 @@ Instructions below are for ROS 2.  For ROS 1, replace ``ros2_ws`` by
 ``catkin_ws``, ``ros2genmsg`` by ``rosgenmsg`` and ``colcon build`` by
 ``catkin_build``.
 
-If you're cloning ``crtk_msgs`` by hand, you can use:
+.. note::
+
+   If you've installed a package relying on CRTK using a tool such as
+   ``vcs``, it is quite possible all the CRTK dependencies have
+   already been pulled from GitHub.  Before pulling another copy,
+   check the content of your ROS workspace ``src`` directory.
+
+If you're cloning ``crtk_msgs`` by hand, you can use the following instructions.
+
+ROS 1
+=====
+
+.. code-block:: bash
+
+   cd ~/catkin_ws/src
+   # clone in sub-directory crtk and rename to crtk_msgs
+   git clone https://github.com/collaborative-robotics/crtk_msgs crtk/crtk_msgs
+   git clone https://github.com/collaborative-robotics/crtk_matlab_client crtk/crtk_matlab_client
+   cd ~/catkin_ws
+   catkin build
+
+
+ROS 2
+=====
 
 .. code-block:: bash
 
    cd ~/ros2_ws/src
    # clone in sub-directory crtk and rename to crtk_msgs
    git clone https://github.com/collaborative-robotics/ros2_crtk_msgs crtk/crtk_msgs
-   git clone https://github.com/collaborative-robotics/crtk_matlab_client crtk/crtk_matlab_client
+   git clone https://github.com/collaborative-robotics/ros2_crtk_matlab_client crtk/crtk_matlab_client
    cd ~/ros2_ws
    colcon build
 
-At that point, you can finally generate the code:
+
+Custom message generation
+=========================
+
+At that point, you can finally generate the code **in Matlab**:
+
+ROS 1:
+
+.. code-block:: matlab
+
+   rosgenmsg('~/catkin_ws/src/crtk')
+
+ROS 2:
 
 .. code-block:: matlab
 
    ros2genmsg('~/ros2_ws/src/crtk')
 
-Then follow instructions to use ``savepath`` but this would apply to
-all users on the workstation so you should probably skip that step and
-read the following section.
+You could follow the instructions displayed at the end of the message
+generation to use ``savepath`` but this would apply to all users on
+the workstation.  So you should probably skip that step and read the
+following section so the paths would be defined per user.
 
 Instead of setting the path for all users, you can use your startup
-script.  To edit the user's ``startup.m``, use:
+script.  To edit the user's ``startup.m`` **in Matlab**, use:
 
 .. code-block:: matlab
 
    edit(fullfile(userpath,'startup.m'))
 
-In your ``startup.m``, you can add the ``addpath`` commands that you want executed everytime your start Matlab:
+If the file doesn't exist yet, click *yes* to create it.  In your
+``startup.m``, you can add the ``addpath`` commands that you want
+executed everytime your start Matlab:
+
+.. note::
+
+   In the following, the path to find the generated code varies based
+   on the ROS and Matlab versions, make sure you use the path provided
+   by Matlab at the end of the ``rosgenmsg`` call.
+
+ROS 1
+-----
 
 .. code-block:: matlab
 
    % to locate crtk_msgs
-   % some Matlab versions use the following path
+   % some Matlab versions use the following
+   addpath('~/catkin_ws_ws/src/crtk/matlab_msg_gen_XXXXXXXXXXX')
+   % to locate crtk client
+   addpath('~/catkin_ws/src/crtk/crtk_matlab_client')
+   % to locate dvrk code - only for dVRK users
+   addpath('~/catkin_ws/src/dvrk-ros/dvrk_matlab')
+
+ROS 2
+-----
+
+.. code-block:: matlab
+
+   % to locate crtk_msgs
+   % some Matlab versions use the following
    addpath('~/ros2_ws/src/crtk/matlab_msg_gen')
    % to locate crtk client
    addpath('~/ros2_ws/src/crtk/crtk_matlab_client')
@@ -63,7 +123,9 @@ Then quit Matlab, restart it and test using:
    clear classes
    rehash toolboxcache
    which startup
-   % create a message
+   % create a message (ROS 1)
+   m = rosmessage('crtk_msgs/OperatingState')
+   % create a message (ROS 2)
    m = ros2message('crtk_msgs/OperatingState')
 
 *******************
