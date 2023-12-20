@@ -71,11 +71,11 @@ example:
 What is happening behind the scene:
 
 * ``ral`` is the ROS Abstraction Layer used by the device. It contains
-  information about the ROS node as the namespace.  For example, if
-  the namespace is ``left``, we assume the device will have its CRTK
-  ROS topics under ``/left``
+  information about the ROS node as well as the namespace.  For
+  example, if the namespace is ``left``, we assume the device will
+  have its CRTK ROS topics under ``/left``
 
-* Add an instance of ``crtk.utils`` in your class. The first parameter
+* Add an instance of ``crtk.utils`` to your class. The first parameter
   indicates which Python object should be "populated", i.e. which
   object will have the CRTK methods added to its dictionary. The
   second parameter is the ROS Abstraction Layer.  The ``ral`` will
@@ -256,7 +256,7 @@ Besides abstracting ROS 1 ``rospy`` and ROS 2 ``rclpy``, the RAL is
 also used to keep track of all the publishers and subscribers created
 for the Python client.  This allows to check if there are existing
 nodes subscribing to the client publishers and nodes publishing to the
-client subscriber.  This is useful for a few reasons:
+client subscribers.  This is useful for a few reasons:
 
  * Detecting mismatches between ROS namespaces.  One can easily have
    a typo or simply use the wrong namespace.  If this is the case,
@@ -265,31 +265,42 @@ client subscriber.  This is useful for a few reasons:
  * Detecting a missing feature on the server side.  The client might
    expect a CRTK feature from the server (device) but that feature
    doesn't exist.  In this case, ``ral.check_connection()`` will throw
-   an exception.  The list of missing CRTK feature will be provided in
-   the exception message.
+   an exception.  The list of missing CRTK features will be provided
+   in the exception message.
 
  * Avoiding race conditions when starting a node.  With ROS, one can
    create a publisher and immediately publish.  The issue is that even
-   if there is already an active subscriber, it is possible to publish
-   before the subscriber is connected.  The connection process is fast
-   but it is still possible to use publish before the subscriber is
-   connected.  In this case, ``ral.check_connection()`` performs a
-   busy wait, checking all the node's publishers and subscribers and
-   returns when they are all connected.  The default time-out is 5
-   seconds.
+   if there is already a subscriber for the same topic, it is possible
+   to publish before the subscriber is connected.  The connection
+   process is fast but it is still possible to use ``publish`` before
+   the subscriber is connected.  To avoid this,
+   ``ral.check_connection()`` performs a busy wait, checking all the
+   node's publishers and subscribers and returns when they are all
+   connected.  The default time-out is 5 seconds.
 
 **************
 Using a client
 **************
 
-For the dVRK, one can use the classes ``dvrk.arm``, ``dvrk.psm``,
-``dvrk.mtm``... that use the ``crtk.utils`` to provide as many
-features as possible. This is convenient for general purpose testing,
-for example in combination with iPython to test snippets of code. In
-general, it is recommended to use your own class and only add the
-features you need to reduce the number of ROS messages and callbacks.
+For this section we will use the dVRK since it comes with a set of
+ready-to-use classes based on the CRTK Python Client.  One can use the
+classes ``dvrk.arm``, ``dvrk.psm``, ``dvrk.mtm``... that rely on
+``crtk.utils`` to provide as many CRTK features as possible.
 
-The dVRK arm class implementation can be found in the "dvrk_python package.
+.. note::
+
+   The client's developer has to make some choices regarding which
+   features to provide.  For an interactive session (say iPython) or
+   quick prototyping, it's useful to have as many features as
+   possible. The issue is that each subscriber has a cost.  For one
+   thing, the publisher will have to publish.  Then the Python client
+   will receive the message and the callback will be called.  This
+   extra cost will incur whether the feature is used of not.
+   Therefore, if performances are an issue, it is recommended to
+   create a custom client with the just required features and nothing
+   else.
+
+The dVRK arm class implementation can be found in the "dvrk_python" package.
 
 Example of use:
 
