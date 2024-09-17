@@ -36,8 +36,8 @@ with CRTK specific ROS messages:
 .. code-block:: bash
 
    cd ~/ros2_ws/src   # or wherever your ROS 2 workspace is
-   git clone https://github.com/collaborative-robotics/ros2_crtk_msgs crtk/crtk_msgs
-   git clone https://github.com/collaborative-robotics/ros2_crtk_python_client crtk/crtk_python_client
+   git clone https://github.com/collaborative-robotics/crtk_msgs crtk/crtk_msgs
+   git clone https://github.com/collaborative-robotics/crtk_python_client crtk/crtk_python_client
    cd ~/ros2_ws;
    colcon build
 
