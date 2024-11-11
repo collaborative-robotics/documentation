@@ -53,7 +53,8 @@ autodoc_mock_imports = [
     'std_msgs',
     'geometry_msgs',
     'sensor_msgs',
-    'crtk_msgs'
+    'crtk_msgs',
+    'PyKDL'
 ]
 
 # -- Options for HTML output -------------------------------------------------
