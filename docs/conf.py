@@ -14,7 +14,6 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = 'CRTK'
@@ -31,7 +30,8 @@ release = '1.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx_tabs.tabs'
+    'sphinx_tabs.tabs',
+    'sphinx.ext.autodoc',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -43,6 +43,18 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 master_doc = 'index'
+
+# -- Options to document CRTK python client packages --------------------
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path('..', 'crtk_python_client', 'src').resolve()))
+autodoc_mock_imports = [
+    'rclpy',
+    'std_msgs',
+    'geometry_msgs',
+    'sensor_msgs',
+    'crtk_msgs'
+]
 
 # -- Options for HTML output -------------------------------------------------
 
