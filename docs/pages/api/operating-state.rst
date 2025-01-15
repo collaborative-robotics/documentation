@@ -1,6 +1,11 @@
-********
+.. _API_operating_state:
+
+***************
+Operating state
+***************
+
 Overview
-********
+########
 
 A robot controller often includes a state machine to manage different
 phases of robot operation. CRTK does not mandate the use of a state
@@ -10,14 +15,13 @@ initiate transitions from one meta-state to another and to query the
 current meta-state. In addition, we specify queries whether the robot
 is homed and/or busy.
 
-*****************
 Robot Meta-States
-*****************
+#################
 
 The four robot *meta-states* (hereafter called states) are illustrated
 in the following notional state machine:
 
-.. image:: ../images/robot-states.png
+.. image:: /images/robot-states.png
   :width: 400
   :align: center
   :alt: CRTK meta-states
@@ -34,7 +38,7 @@ below.
 The following subsections describe the states.
 
 DISABLED
-========
+********
 
 In this state, the drive (motor) power is disabled. This is typically
 the initial state of the robot. If, however, there is a fault
@@ -42,7 +46,7 @@ condition that would prevent the robot from being powered on (via the
 enable command), the system should transition to the FAULT state.
 
 ENABLED
-=======
+*******
 
 In this state, the motor power is enabled and the robot is able to
 move. We identify the BUSY operating mode, which indicates that a
@@ -56,7 +60,7 @@ implementations may have several states in this category; for example,
 a separate state for each motion type.
 
 PAUSED
-======
+******
 
 In this state, the motor power is enabled, but the robot cannot be
 moved. The system transitions to this state in response to a pause
@@ -73,7 +77,7 @@ has control of the robot; for example, if pre-empted by another
 controller, such as a teach pendant.
 
 FAULT
-=====
+*****
 
 The robot enters the FAULT state when a fault condition (safety
 violation) causes the motor power to be disabled. If the robot system
@@ -101,9 +105,8 @@ is intended to indicate a persisent fault condition (detected by the
 system), whereas the system cannot determine whether an
 application-level fault is persistent.
 
-*****************
 State Transitions
-*****************
+#################
 
 The following table indicates the state transitions corresponding to
 the commands listed in the top row.
@@ -133,7 +136,7 @@ the commands listed in the top row.
      - DISABLED
      - PAUSED
      - ENABLED
-       
+
        (invalid)
    * - **PAUSED**
      - PAUSED
@@ -155,14 +158,13 @@ the commands listed in the top row.
      - FAULT
 
        (invalid)
-   
+
 In addition to the commands in the above table, there is a ``home``
 command to initiate the homing sequence and an ``unhome`` command to
 reset the home flag.
 
-*************
 State Queries
-*************
+#############
 
 Each of the meta-states has a corresponding query command if the robot
 is in that state. The state queries are ``is_disabled``, ``is_enabled``,

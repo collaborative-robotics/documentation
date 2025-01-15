@@ -1,7 +1,8 @@
 .. include:: <isonum.txt>
 
+####
 CRTK
-====
+####
 
 .. toctree::
    :numbered:
@@ -10,5 +11,4 @@ CRTK
    pages/introduction
    pages/api
    pages/clients
-   pages/test
-
+   pages/links

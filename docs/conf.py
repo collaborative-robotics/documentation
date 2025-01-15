@@ -73,4 +73,11 @@ html_css_files = [
     'custom.css',
 ]
 
+html_context = {
+  'display_github': True,
+  'github_user': 'collaborative-robotics',
+  'github_repo': 'documentation',
+  'github_version': 'devel/docs/',
+}
+
 html_title = project + ' ' + release

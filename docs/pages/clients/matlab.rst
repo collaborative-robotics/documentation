@@ -1,4 +1,9 @@
-************
+.. _client_matlab:
+
+Matlab
+######
+
+
 Installation
 ************
 
@@ -51,7 +56,6 @@ ROS 2
    colcon build
 
 
-*************************
 Custom message generation
 *************************
 
@@ -127,7 +131,6 @@ Then quit Matlab, restart it and test using:
    % create a message (ROS 2)
    m = ros2message('crtk_msgs/OperatingState')
 
-*******************
 Setting up a client
 *******************
 
@@ -184,7 +187,6 @@ This can be used to make sure you're using the right ROS topic name
 and namespace.
 
 
-**************
 Using a client
 **************
 
