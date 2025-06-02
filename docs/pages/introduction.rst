@@ -60,19 +60,17 @@ This is a non-exhaustive list of devices with CRTK interfaces.  The devices with
 
 * `dVRK (da Vinci Research Kit) <https://github.com/jhu-dvrk/sawIntuitiveResearchKit>`_
 
-  * ROS 1 & 2 interfaces as well as Python and Matlab clients
+  * `ROS1 <https://github.com/jhu-dvrk/dvrk-ros>`_ and `ROS2 <https://github.com/jhu-dvrk/ros2_dvrk_robot>`_ interfaces as well as Python and Matlab clients
 
   * *cisstMultiTask* interface
 
-* `ForceDimension haptic devices (and Novint Falcon)
-  <https://github.com/jhu-saw/sawForceDimensionSDK>`_
+* `ForceDimension haptic devices (and Novint Falcon) <https://github.com/jhu-saw/sawForceDimensionSDK>`_
 
   * ROS1 and ROS2 interfaces as well as Python client
 
   * *cisstMultiTask* interface
 
-* `SensablePhantom haptic devices (aka GeoMagic or 3DS Touch)
-  <https://github.com/jhu-saw/sawSensablePhantom>`_
+* `SensablePhantom haptic devices (aka GeoMagic or 3DS Touch) <https://github.com/jhu-saw/sawSensablePhantom>`_
 
   * ROS1 and ROS2 interfaces as well as Python client
 
@@ -84,10 +82,7 @@ This is a non-exhaustive list of devices with CRTK interfaces.  The devices with
 
   * *cisstMultiTask* interface
 
-* `Northern Digital Inc tracking devices (NDI)
-  <https://github.com/jhu-saw/sawNDITracker>`_.  Current
-  implementation supports devices using a serial port or USB interface
-  (Polaris, Aurora...)
+* `Northern Digital Inc tracking devices (NDI) <https://github.com/jhu-saw/sawNDITracker>`_.  Current implementation supports devices using a serial port or USB interface (Polaris, Aurora...)
 
   * ROS1 and ROS2 interfaces
 
@@ -126,4 +121,3 @@ This is a non-exhaustive list of devices with CRTK interfaces.  The devices with
 * `Asynchronous Multi-Body Framework (AMBF) simulator <https://github.com/WPI-AIM/ambf>`_
 
   * ROS1 and ROS2 interfaces via `AMBF CRTK plugin <https://github.com/LCSR-CIIS/ambf_crtk_plugin>`_ (see ros1 and ros2 branches)
-  
