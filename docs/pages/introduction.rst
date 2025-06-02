@@ -52,11 +52,7 @@ robots. Typical use cases include:
 Supported devices
 *****************
 
-This is a non-exhaustive list of devices with CRTK interfaces.  The
-devices with a *cisstMultiTask* interface rely on the `ROS1 bridge
-<https://github.com/jhu-cisst/cisst-ros>`_ or `ROS2 bridge
-<https://github.com/jhu-cisst/cisst_ros2_crtk>`_ to provide the ROS
-interface.
+This is a non-exhaustive list of devices with CRTK interfaces.  The devices with a *cisstMultiTask* interface rely on the `ROS bridge <https://github.com/jhu-cisst/cisst-ros>`_ to provide the ROS1 or ROS2 interface.  In many cases, it is necessary to use the development branch (devel).
 
 * `Raven II <https://applieddexterity.com/>`_
 
@@ -71,20 +67,20 @@ interface.
 * `ForceDimension haptic devices (and Novint Falcon)
   <https://github.com/jhu-saw/sawForceDimensionSDK>`_
 
-  * ROS 1 & 2 interfaces as well as Python client
+  * ROS1 and ROS2 interfaces as well as Python client
 
   * *cisstMultiTask* interface
 
 * `SensablePhantom haptic devices (aka GeoMagic or 3DS Touch)
   <https://github.com/jhu-saw/sawSensablePhantom>`_
 
-  * ROS 1 & 2 interfaces as well as Python client
+  * ROS1 and ROS2 interfaces as well as Python client
 
   * *cisstMultiTask* interface
 
 * `Universal Robot (UR) <https://github.com/jhu-saw/sawUniversalRobot>`_
 
-  * ROS 1 & 2 interfaces
+  * ROS1 and ROS2 interfaces
 
   * *cisstMultiTask* interface
 
@@ -93,18 +89,41 @@ interface.
   implementation supports devices using a serial port or USB interface
   (Polaris, Aurora...)
 
-  * ROS 1 & 2 interfaces
+  * ROS1 and ROS2 interfaces
 
   * *cisstMultiTask* interface
 
 * `Atracsys tracking devices <https://github.com/jhu-saw/sawAtracsysFusionTrack>`_
 
-  * ROS 1 & 2 interfaces
+  * ROS1 and ROS2 interfaces
+
+  * *cisstMultiTask* interface
+
+* `ATI force sensors <https://github.com/jhu-saw/sawATIForceSensor>`_. Current implementation supports force sensors with Ethernet interface.
+
+  * ROS1 and ROS2 interfaces
 
   * *cisstMultiTask* interface
 
 * `Optoforce force sensors <https://github.com/jhu-saw/sawOptoforceSensor>`_
 
-  * ROS1 & 2 interfaces
+  * ROS1 and ROS2 interfaces
 
   * *cisstMultiTask* interface
+
+* Custom robots using `Galil controller interface <https://github.com/jhu-saw/sawGalilController>`_
+
+  * ROS1 and ROS2 interfaces
+
+  * *cisstMultiTask* interface
+
+* Custom robots using `Copley controller interface <https://github.com/jhu-saw/sawCopleyController>`_
+
+  * ROS1 and ROS2 interfaces
+
+  * *cisstMultiTask* interface
+
+* `Asynchronous Multi-Body Framework (AMBF) simulator <https://github.com/WPI-AIM/ambf>`_
+
+  * ROS1 and ROS2 interfaces via `AMBF CRTK plugin <https://github.com/LCSR-CIIS/ambf_crtk_plugin>`_ (see ros1 and ros2 branches)
+  
