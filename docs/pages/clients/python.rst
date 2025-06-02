@@ -1,4 +1,8 @@
-************
+.. _client_python:
+
+Python
+######
+
 Installation
 ************
 
@@ -45,7 +49,6 @@ Once these packages are built, you should source your ``setup.bash``:
 ``source ~/ros_ws/install/setup.bash``. At that point, you should be able
 to import the crtk python package in Python using ``import crtk``.
 
-*******************
 Setting up a client
 *******************
 
@@ -278,7 +281,6 @@ client subscribers.  This is useful for a few reasons:
    node's publishers and subscribers and returns when they are all
    connected.  The default time-out is 5 seconds.
 
-**************
 Using a client
 **************
 
@@ -341,3 +343,10 @@ Example of use:
     p.move_cp(goal).wait()
 
     ral.shutdown()
+
+
+Reference
+*********
+
+.. automodule:: crtk
+   :members:

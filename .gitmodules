@@ -1,0 +1,3 @@
+[submodule "docs/crtk_python_client"]
+	path = crtk_python_client
+	url = https://github.com/collaborative-robotics/crtk_python_client
