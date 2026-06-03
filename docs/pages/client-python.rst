@@ -388,7 +388,7 @@ The script waits for key presses:
 * Press ``z`` — same motion along **+z**.
 * Press ``q`` — quits.
 
-By watching the physical robot (or a visualisation) you can quickly
+By watching the physical robot (or a visualization) you can quickly
 verify that the axes match your expectations before writing any motion
 code.
 
@@ -440,3 +440,19 @@ collected them it computes and prints the rotation matrix as a
    mounted in an arbitrary or variable orientation.  For fixed
    installations with a known mounting angle you can set ``base_frame``
    by hand.
+
+.. hint::
+
+   When choosing the CRTK topic to pass to ``--device``, consider whether
+   the device already has a ``base_frame`` configured:
+
+   * ``measured_cp`` — reports the pose **in the frame defined by**
+     ``base_frame``.  Use this topic for an initial registration when no
+     ``base_frame`` has been set yet.
+
+   * ``local/measured_cp`` — reports the pose **without applying any
+     existing** ``base_frame``, i.e. in the raw device frame.  Use this
+     topic when **re-registering** a device that already has a
+     ``base_frame`` in its configuration; doing so ensures the registration
+     procedure always sees the unmodified, raw poses regardless of the
+     current ``base_frame`` value.
