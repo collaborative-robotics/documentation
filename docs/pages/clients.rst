@@ -51,18 +51,7 @@ can be totally portable.
    mature.  More specifically the RAL implementation is buggy on ROS 2
    and missing in the ROS 1 implementation.
 
-.. _client_python:
+.. toctree::
 
-########################
-Client Libraries: Python
-########################
-
-.. include:: client-python.rst
-
-.. _client_matlab:
-
-########################
-Client Libraries: Matlab
-########################
-
-.. include:: client-matlab.rst
+   client-python
+   client-matlab

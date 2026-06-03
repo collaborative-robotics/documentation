@@ -1,3 +1,9 @@
+.. _client_matlab:
+
+########################
+Client Libraries: Matlab
+########################
+
 ************
 Installation
 ************

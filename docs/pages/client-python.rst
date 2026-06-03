@@ -1,3 +1,9 @@
+.. _client_python:
+
+########################
+Client Libraries: Python
+########################
+
 ************
 Installation
 ************
