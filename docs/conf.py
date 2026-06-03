@@ -61,3 +61,13 @@ html_css_files = [
 ]
 
 html_title = project + ' ' + release
+
+html_context = {
+    'versions': [
+        ('Main', 'main'),
+        ('Stable', 'stable'),
+        ('1.2.0', '1.2.0'),
+        ('1.0.0', '1.0.0'),
+    ]
+}
+
