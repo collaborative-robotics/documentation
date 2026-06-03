@@ -341,3 +341,96 @@ Example of use:
     p.move_cp(goal).wait()
 
     ral.shutdown()
+
+******************
+Coordinate systems
+******************
+
+Overview
+========
+
+CRTK does not mandate a specific world coordinate system — each device
+defines its own.  Nevertheless, many applications built on top of CRTK,
+in particular those using the **dVRK** (da Vinci Research Kit), share a
+common convention:
+
+* **x** — pointing to the **left**
+* **y** — pointing **up**
+* **z** — pointing **away** from the operator (i.e., into the workspace)
+
+This right-handed Cartesian frame is the de-facto standard for dVRK-based
+work and should be assumed unless the device documentation states otherwise.
+
+Verifying the coordinate system with ``crtk_xyz.py``
+=====================================================
+
+The script ``crtk_xyz.py`` (found in the ``scripts`` directory of the
+``crtk_python_client`` repository) is an interactive jog utility that
+helps you **confirm the axis directions** of a device at run-time.
+
+After the robot is enabled and homed, run:
+
+.. code-block:: bash
+
+   ros2 run crtk_python_client crtk_xyz.py <arm-name>
+
+The script waits for key presses:
+
+* Press ``x`` — moves the end-effector in the **+x** direction by a
+  configurable amplitude and then returns to the original position.
+* Press ``y`` — same motion along **+y**.
+* Press ``z`` — same motion along **+z**.
+* Press ``q`` — quits.
+
+By watching the physical robot (or a visualisation) you can quickly
+verify that the axes match your expectations before writing any motion
+code.
+
+Finding the ``base_frame`` with ``crtk_simple_orientation_registration.py``
+============================================================================
+
+On **backdrivable** devices (e.g. a force-sensing arm used as an input
+device), the mounting orientation relative to the world frame may not be
+known in advance.  The script
+``crtk_simple_orientation_registration.py`` automates a simple
+orientation-registration procedure that produces a ``base_frame``
+transform you can paste directly into a dVRK console JSON configuration
+file.
+
+Run the script with:
+
+.. code-block:: bash
+
+   ros2 run crtk_python_client crtk_simple_orientation_registration.py \
+       --device <device-name> \
+       --reference-frame <frame-name>
+
+The mandatory ``--device`` argument is the CRTK namespace of the
+backdrivable device; the device must publish ``measured_cp``.  The
+optional ``--reference-frame`` argument (default: ``user``) sets the
+name used for the reference frame in the generated JSON snippet.
+
+The script guides you through a series of poses.  After you have
+collected them it computes and prints the rotation matrix as a
+``base_frame`` JSON block ready for inclusion in your configuration:
+
+.. code-block:: json
+
+   {
+       "base_frame": {
+           "reference-frame": "user",
+           "transform": [
+               [ 1.0,  0.0,  0.0,  0.0 ],
+               [ 0.0,  1.0,  0.0,  0.0 ],
+               [ 0.0,  0.0,  1.0,  0.0 ],
+               [ 0.0,  0.0,  0.0,  1.0 ]
+           ]
+       }
+   }
+
+.. note::
+
+   The ``base_frame`` registration is only needed when the device is
+   mounted in an arbitrary or variable orientation.  For fixed
+   installations with a known mounting angle you can set ``base_frame``
+   by hand.
